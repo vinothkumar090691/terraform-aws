@@ -2,14 +2,22 @@ pipeline {
   agent any
 
   environment {
-    AWS_ACCESS_KEY_ID     = credentials('aws-access-key')
-    AWS_SECRET_ACCESS_KEY = credentials('aws-secret-key')
+    AWS_CREDS = credentials('AKIAVV6FWKWE2BRFQK5F') // Use your actual Jenkins credential ID
   }
 
   stages {
-    stage('Checkout') {
+    stage('Set AWS Environment') {
       steps {
-        git 'https://github.com/YOUR_GITHUB_USER/YOUR_REPO.git'
+        script {
+          env.AWS_ACCESS_KEY_ID     = "${env.AWS_CREDS_USR}"
+          env.AWS_SECRET_ACCESS_KEY = "${env.AWS_CREDS_PSW}"
+        }
+      }
+    }
+
+    stage('Checkout Code') {
+      steps {
+        git 'https://github.com/vinothkumar090691/terraform-aws.git'
       }
     }
 
@@ -32,7 +40,7 @@ pipeline {
     stage('Terraform Apply') {
       steps {
         dir('envs/dev') {
-          input message: 'Approve Terraform Apply?'
+          input message: "Apply EC2 instance?"
           sh 'terraform apply -auto-approve -var-file="terraform.tfvars"'
         }
       }
