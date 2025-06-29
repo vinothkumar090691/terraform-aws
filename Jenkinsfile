@@ -37,18 +37,16 @@ pipeline {
       }
     }
 
-    stage('Terraform Action') {
-      steps {
-        dir('envs/dev') {
-          script {
-            if (params.ACTION == 'apply') {
-              input message: "Apply EC2 instance?"
-              sh "terraform apply -auto-approve -var-file=\"terraform.tfvars\""
-            } else if (params.ACTION == 'destroy') {
-              input message: "Destroy EC2 instance? This is irreversible!"
-              sh "terraform destroy -auto-approve -var-file=\"terraform.tfvars\""
-            }
-          }
+stage('Terraform Action') {
+  steps {
+    dir('envs/dev') {
+      script {
+        if (params.ACTION == 'apply') {
+          echo "Running terraform apply..."
+          sh "terraform apply -auto-approve -var-file=\"terraform.tfvars\""
+        } else if (params.ACTION == 'destroy') {
+          echo "Running terraform destroy..."
+          sh "terraform destroy -auto-approve -var-file=\"terraform.tfvars\""
         }
       }
     }
