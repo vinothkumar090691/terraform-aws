@@ -1,7 +1,6 @@
 # Local .terraform directories
 .terraform/
-envs/dev/.terraform/
-
+/root/terraform/terraform-aws-infra/envs/dev/.terraform/
 # .tfstate files
 *.tfstate
 *.tfstate.*
