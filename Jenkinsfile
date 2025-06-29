@@ -42,10 +42,10 @@ pipeline {
         dir('envs/dev') {
           script {
             if (params.ACTION == 'apply') {
-              echo "Running terraform apply..."
+              input message: "Apply EC2 instance?"
               sh "terraform apply -auto-approve -var-file=\"terraform.tfvars\""
             } else if (params.ACTION == 'destroy') {
-              echo "Running terraform destroy..."
+              input message: "Destroy EC2 instance? This is irreversible!"
               sh "terraform destroy -auto-approve -var-file=\"terraform.tfvars\""
             }
           }
