@@ -2,19 +2,11 @@ pipeline {
   agent any
 
   environment {
-    AWS_CREDS = credentials('AKIAVV6FWKWE2BRFQK5F') // Use your actual Jenkins credential ID
+    AWS_ACCESS_KEY_ID     = credentials('aws-access-key')
+    AWS_SECRET_ACCESS_KEY = credentials('aws-secret-key')
   }
 
   stages {
-    stage('Set AWS Environment') {
-      steps {
-        script {
-          env.AWS_ACCESS_KEY_ID     = "${env.AWS_CREDS_USR}"
-          env.AWS_SECRET_ACCESS_KEY = "${env.AWS_CREDS_PSW}"
-        }
-      }
-    }
-
     stage('Checkout Code') {
       steps {
         git 'https://github.com/vinothkumar090691/terraform-aws.git'
